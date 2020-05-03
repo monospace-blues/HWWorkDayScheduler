@@ -1,0 +1,18 @@
+textarea {
+    resize: none;
+}
+
+.colorRed {
+    background-color: red;
+    color: black;
+}
+
+.colorGrey {
+    background-color: gray;
+    color: black;
+}
+
+.colorGreen {
+    background-color: green;
+    color: white;
+}
