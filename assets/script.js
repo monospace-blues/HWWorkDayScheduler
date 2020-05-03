@@ -6,6 +6,10 @@ var dateMethod = new Date();
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Saturday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+// hour is set to var hour
+// we'll be using this a lot...
+var hour = dateMethod.getHours();
+
 // Display example: "Thursday, September 20"
 var timeString = days[dateMethod.getDay() - 1] + ", " + months[dateMethod.getMonth()] + " " + dateMethod.getDate();
 // add to our html file
@@ -36,18 +40,15 @@ $(document).ready(function() {
 
     // we'll use the time array as a limit for the for loop
     for (var i = 0; i < time.length; i++){
+        // console.log(dateMethod.getHours());
 
-        var hour = 13;
-        console.log(dateMethod.getHours());
         // access our jQuery element with the textEl string ex: "#2pm"
         var textEl = "#" + time[i];
 
-        // What to do when we get our attributes
-        console.log($(textEl).attr("data-time"));
-
+        // What to do when we get our attributes...
         // if the data-time attr is less than the hour,
         // disable the text!
-        if (hour > $(textEl).attr("data-time")) {
+        if (hour >  $(textEl).attr("data-time")) {
             $(textEl).children(".textPlan").children().attr("disabled", "disabled");
             $(textEl).children(".textPlan").children().addClass("colorGrey");
 
@@ -66,10 +67,10 @@ $(document).ready(function() {
     }
 
     
-
+    // Button Event Listener  
     // dealing with text values and saving them
     var saveButton = $("button");
-
+    
     saveButton.on("click", function(event){
         // make it a habit
         event.preventDefault();
@@ -80,14 +81,16 @@ $(document).ready(function() {
             var texting = $(this).siblings(".textPlan").children().val().trim();
             
             // searches and gets the value of the parent ID!!
-            var thatVal = $(this).parent().attr("data-time");
+            var thatVal = $(this).parent().attr("id");
 
-            localStorage.setItem(thatVal, texting);
-            // we'll save this to check if we can access the text box...
-            // $(this).siblings(".textPlan").children().attr("disabled", "");
-            console.log(texting);
-            console.log(thatVal);
-            console.log();
+            // to prevent any button clicks creating something in local storage,
+            // if it's past the hour, we'll just do nothing with the button click
+            if (hour > $(this).parent().attr("data-time")){
+                return;
+            } else {
+                // set (create) the string to local storage
+                localStorage.setItem(thatVal, texting);
+            }
         }
 
     });
